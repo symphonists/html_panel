@@ -3,17 +3,15 @@
 	Class extension_html_panel extends Extension{
 	
 		public function about(){
-			return array('name' => 'Field: HTML Panel',
-						 'version' => '0.1',
-						 'release-date' => '2010-03-02',
-						 'author' => array('name' => 'Nick Dunn',
-										   'website' => 'http://symphony-cms.com',
-										   'email' => 'team@symphony21.com')
-				 		);
-		}
-		
-		public function uninstall(){
-			$this->_Parent->Database->query("DROP TABLE `tbl_fields_html_panel`");
+			return array(
+						'name' => 'Field: HTML Panel',
+						'version' => '0.1',
+						'release-date' => '2010-03-04',
+						'author' => array(
+							'name' => 'Nick Dunn',
+							'website' => 'http://nick-dunn.co.uk'
+						)
+					);
 		}
 		
 		public function install() {
@@ -26,8 +24,10 @@
 				UNIQUE KEY `field_id` (`field_id`)
 				) TYPE=MyISAM
 			");
-		}		
-			
+		}
+		
+		public function uninstall(){
+			$this->_Parent->Database->query("DROP TABLE `tbl_fields_html_panel`");
+		}
+	
 	}
-
-?>

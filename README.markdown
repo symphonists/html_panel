@@ -19,7 +19,7 @@ To allow the creation of rich views of data in the Symphony backend, using only 
 
 When adding this field to a section you must provide a **URL Expression**. This is the URL of the HTML to display in the backend. This can be  relative such as `/my-page` or absolute e.g. `http://mydomain.com/my-page`. Values from other fields in the entry can be used to build the URL and are included using XSLT syntax:
 
-    /html-panels/order-summary/{entry/@id}
+    /order-summary-panel/{entry/@id}
 
 The available XML to choose from is a full `<entry>` nodeset, as you would normally see through a Data Source. All fields are included in this XML.
 	
@@ -28,19 +28,19 @@ The available XML to choose from is a full `<entry>` nodeset, as you would norma
 This is a quick example to show how an HTML Panel field can be used to display an order summary from a one-to-many section relationship between Orders and Order Items.
 
 The Orders section comprises a Name (reference) and Date field:  
-![Orders section](http://nick-dunn.co.uk/assets/files/html-panels.1.png)
+![Orders section](html-panels.1.png)
 
 Entries in the Order Items section store the item name, unit price, quantity and which Order they are assigned to:  
-![Order Items section](http://nick-dunn.co.uk/assets/files/html-panels.2.png)
+![Order Items section](html-panels.2.png)
 
 Viewing the Orders section a user sees the normal fields plus an HTML Panel field showing the order summary:  
-![Order entry](http://nick-dunn.co.uk/assets/files/html-panels.3.png)
+![Order entry](html-panels.3.png)
 
 The HTML Panel field is configured to point to a local Symphony page, passing the viewed (Order) entry ID in the URL:  
-![Order Summary page snippet](http://nick-dunn.co.uk/assets/files/html-panels.5.png)
+![Order Summary page snippet](html-panels.5.png)
 
 The order summary table is actually served from a frontend page with a Data Source attached, filtering Order Entries by the URL Parameter `{$order}`:
-![Order Summary page snippet](http://nick-dunn.co.uk/assets/files/html-panels.4.png)
+![Order Summary page snippet](html-panels.4.png)
 
 The XSLT for this page simply creates an HTML table and nothing else:  
 
@@ -76,10 +76,33 @@ The XSLT for this page simply creates an HTML table and nothing else:
 
 	</xsl:stylesheet>
 
+## Styling HTML Panels
+
+The extension provides a single `html-panel.css` which controls global styling of content within HTML Panel fields. Any custom styling should **not** be put in this file. Instead, each HTML Panel instance is given its own unique ID. For example an HTML Panel field named "Order Summary" in a section named "Orders" will render an HTML container:
+
+	<div class="field field-html_panel">
+		<label>Order Summary</label>
+		<div id="orders_order-summary" class="html-panel">
+			...
+		</div>
+	</div>
+
+You can create styles and behaviour by creating files at the following locations:
+
+	/workspace/html-panel/orders_order-summary.css
+	/workspace/html-panel/orders_order-summary.js
+
+If these files exist, they will be automatically added to the `<head>` when the page loads. Your CSS can then target its specific HTML Panel:
+	
+	#orders_order-summary {
+		...
+	}
+
 ## Other examples
 
-Obviously the uses for this technique are far reaching. Some other possible implementations:
+The uses for this technique are far reaching. Some other possible implementations:
 
 * allowing the user to enter a YouTube video URL in a text input field, and embedding it directly with an HTML Panel
-* when multiple Images are assigned to an Article, an HTML Panel could display a read-only list of thumbnails with "Edit" links directly to these entries in the Images section
-* embed Google Charts or Google Maps without additional fields
+* when multiple Images are assigned to an Article, an HTML Panel could display a read-only list of thumbnails with "Edit" links directly to these entries in the Images section (a type of read-only Subsection/Mediathek field)
+* embedding Google Charts or Google Maps
+* making web service calls to third party application such as Google Analytics, stock/inventory/fulfilment systems etc.

@@ -9,17 +9,16 @@
 		}
 
 		function displaySettingsPanel(&$wrapper, $errors=NULL){
-			
-			parent::displaySettingsPanel($wrapper, $errors);	
+			parent::displaySettingsPanel($wrapper, $errors);
 
 			$label = Widget::Label('URL Expression');
 			$label->appendChild(Widget::Input('fields['.$this->get('sortorder').'][url_expression]', $this->get('url_expression')));
-			$wrapper->appendChild($label);	
+			$wrapper->appendChild($label);
 									
 		}
 		
-		public function processRawFieldData($data, &$status, $simulate=false, $entry_id=null) {	
-			$status = self::__OK__;			
+		public function processRawFieldData($data, &$status, $simulate=false, $entry_id=null) {
+			$status = self::__OK__;
 			return array();
 		}
 		
@@ -49,31 +48,54 @@
 		
 		function displayPublishPanel(&$wrapper, $data=NULL, $flagWithError=NULL, $fieldnamePrefix=NULL, $fieldnamePostfix=NULL){
 			
+			// work out what page we are on, get portions of the URL
 			$callback = Administration::instance()->getPageCallback();
 			$entry_id = $callback['context']['entry_id'];
 			
+			// get an Entry object for this entry
 			$entryManager = new EntryManager(Administration::instance());
-			$entry = $entryManager->fetch($entry_id);
+			$entries = $entryManager->fetch($entry_id);
 			
-			if (!isset($entry[0]) && !$entry[0] instanceOf Entry) return;
+			if (is_array($entries)) $entry = reset($entries);
 			
-			$entry = reset($entry);
-						
+			// parse dynamic portions of the HTML Panel URL
 			$url = $this->parseExpression($entry, $this->get('url_expression'));
+			if (!preg_match('/^http/', $url)) $url = URL . $url;
 			
-			if (!preg_match('/^http/', $url)) {
-				$url = URL . $url;
-			}
+			require_once(TOOLKIT . '/class.gateway.php');
+			$ch = new Gateway;
+			$ch->init();
+			$ch->setopt('URL', $url);
+			$result = $ch->exec();
 			
-			$html = file_get_contents($url);
+			// a unique name for this panel instance
+			$instance_id = $callback['context']['section_handle'] . '_' . $this->get('element_name');
 			
-			$container = new XMLELement('div', $html);
-			$container->setAttribute('class', 'html-partial');
+			$container = new XMLELement('div', $result);
+			$container->setAttribute('id', $instance_id);
+			$container->setAttribute('class', 'html-panel');
 			
+			$label = Widget::Label($this->get('label'));
+			$wrapper->appendChild($label);
 			$wrapper->appendChild($container);
 			
 			if ($this->_engine->Page) {
-				$this->_engine->Page->addStylesheetToHead(URL . '/extensions/html_panel/assets/html-panel.css', 'screen', ($this->get('id') * $entry_id));
+				$asset_index = $this->get('id') * rand(10,100);
+				
+				// add the general styling
+				$this->_engine->Page->addStylesheetToHead(URL . '/extensions/html_panel/assets/html-panel.css', 'screen', $asset_index++);
+				
+				// add panel-specific styling
+				$instance_css = '/html-panel/' . $instance_id . '.css';
+				if (file_exists(WORKSPACE . $instance_css)) {
+					$this->_engine->Page->addStylesheetToHead(URL . '/workspace' . $instance_css, 'screen', $asset_index++);
+				}
+				
+				// add panel-specific behaviour
+				$instance_js = '/html-panel/' . $instance_id . '.js';
+				if (file_exists(WORKSPACE . $instance_js)) {
+					$this->_engine->Page->addScriptToHead(URL . '/workspace' . $instance_js, $asset_index++);
+				}
 			}
 			
 		}
@@ -89,19 +111,15 @@
 			);			
 		}
 		
+		// modified from Reflection Field
 		private function parseExpression($entry, $expression) {
 		
-			$xpath = $this->getXPath($entry);
-			
-			$replacements = array();
-			
-			// Find queries:
+			$xpath = $this->getXPath($entry);			
+			$replacements = array();			
 			preg_match_all('/\{[^\}]+\}/', $expression, $matches);
 			
-			// Find replacements:
 			foreach ($matches[0] as $match) {
-				$results = @$xpath->query(trim($match, '{}'));
-				
+				$results = @$xpath->query(trim($match, '{}'));				
 				if ($results->length) {
 					$replacements[$match] = $results->item(0)->nodeValue;
 				} else {
@@ -109,7 +127,6 @@
 				}
 			}
 			
-			// Apply replacements:
 			$value = str_replace(
 				array_keys($replacements),
 				array_values($replacements),
@@ -119,7 +136,11 @@
 			return $value;
 		}
 		
+		// modified from Reflection Field
 		private function getXPath($entry) {
+			
+			if (!$entry instanceOf Entry) return new DOMXPath(new DOMDocument());
+			
 			$entry_xml = new XMLElement('entry');
 			$section_id = $entry->_fields['section_id'];
 			$data = $entry->getData();			
@@ -145,7 +166,6 @@
 				}
 			}
 
-			// Add fields:
 			foreach ($data as $field_id => $values) {
 				if (empty($field_id)) continue;
 
@@ -163,5 +183,3 @@
 		}
 						
 	}
-
-?>
