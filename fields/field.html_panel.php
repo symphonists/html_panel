@@ -53,11 +53,15 @@
 			$entry_id = $callback['context']['entry_id'];
 			
 			$entryManager = new EntryManager(Administration::instance());
-			$entry = reset($entryManager->fetch($entry_id));
+			$entry = $entryManager->fetch($entry_id);
+			
+			if (!isset($entry[0]) && !$entry[0] instanceOf Entry) return;
+			
+			$entry = reset($entry);
 						
 			$url = $this->parseExpression($entry, $this->get('url_expression'));
 			
-			if (!preg_match('/$http/', $url)) {
+			if (!preg_match('/^http/', $url)) {
 				$url = URL . $url;
 			}
 			
@@ -146,7 +150,7 @@
 				if (empty($field_id)) continue;
 
 				$field =& $entry->_Parent->fieldManager->fetch($field_id);
-				$field->appendFormattedElement($entry_xml, $values, false);
+				$field->appendFormattedElement($entry_xml, $values, false, null);
 			}
 
 			$xml = new XMLElement('data');
