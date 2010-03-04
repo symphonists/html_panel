@@ -1,6 +1,6 @@
 # HTML Panel Field
  
-Version: 1.0  
+Version: 1.1  
 Author: Nick Dunn  
 Build Date: 2010-03-04  
 Requirements: Symphony 2.0.6+, cURL (not fsockopen)
