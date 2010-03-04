@@ -61,13 +61,27 @@
 			// parse dynamic portions of the HTML Panel URL
 			$url = $this->parseExpression($entry, $this->get('url_expression'));
 			if (!preg_match('/^http/', $url)) $url = URL . $url;
-			
-			require_once(TOOLKIT . '/class.gateway.php');
-			$ch = new Gateway;
-			$ch->init();
-			$ch->setopt('URL', $url);
-			$result = $ch->exec();
-			
+
+			$cookie = 'PHPSESSID=' . $_COOKIE['PHPSESSID'] . '; path=/';
+			session_write_close();
+
+			$ch = curl_init($url);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+			curl_setopt( $ch, CURLOPT_COOKIE, $cookie);
+			$result = curl_exec($ch);
+			curl_close($ch);
+
+			//require_once(TOOLKIT . '/class.gateway.php');
+			//$ch = new Gateway;
+			//$ch->init();
+			//$ch->setopt('URL', $url);
+			//$ch->setopt('CURLOPT_COOKIE', $cookie);			
+			//$fh = fopen(TMP . '/cookie.txt', 'w');
+			//fwrite($fh, $cookie);
+			//fclose($fh);			
+			//$result = $ch->exec();
+						
 			// a unique name for this panel instance
 			$instance_id = $callback['context']['section_handle'] . '_' . $this->get('element_name');
 			

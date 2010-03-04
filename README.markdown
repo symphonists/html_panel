@@ -3,7 +3,7 @@
 Version: 1.0  
 Author: Nick Dunn  
 Build Date: 2010-03-04  
-Requirements: Symphony 2.0.6+
+Requirements: Symphony 2.0.6+, cURL (not fsockopen)
 
 ## Purpose
 To allow the creation of rich views of data in the Symphony backend, using only Symphony's native tools (Pages, XSLT and Data Sources). To reduce the barrier to entry of embedding of content within the Symphony backend without so that developers do not experience of creating Extensions and system Fields. "So easy a frontend developer could do it!"
@@ -28,19 +28,19 @@ The available XML to choose from is a full `<entry>` nodeset, as you would norma
 This is a quick example to show how an HTML Panel field can be used to display an order summary from a one-to-many section relationship between Orders and Order Items.
 
 The Orders section comprises a Name (reference) and Date field:  
-![Orders section](http://nick-dunn.co.uk/assets/files/html-panels.1.png)
+![Orders section](html-panels.1.png)
 
 Entries in the Order Items section store the item name, unit price, quantity and which Order they are assigned to:  
-![Order Items section](http://nick-dunn.co.uk/assets/files/html-panels.2.png)
+![Order Items section](html-panels.2.png)
 
 Viewing the Orders section a user sees the normal fields plus an HTML Panel field showing the order summary:  
-![Order entry](http://nick-dunn.co.uk/assets/files/html-panels.3.png)
+![Order entry](html-panels.3.png)
 
 The HTML Panel field is configured to point to a local Symphony page, passing the viewed (Order) entry ID in the URL:  
-![Order Summary page snippet](http://nick-dunn.co.uk/assets/files/html-panels.5.png)
+![Order Summary page snippet](html-panels.5.png)
 
 The order summary table is actually served from a frontend page with a Data Source attached, filtering Order Entries by the URL Parameter `{$order}`:
-![Order Summary page snippet](http://nick-dunn.co.uk/assets/files/html-panels.4.png)
+![Order Summary page snippet](html-panels.4.png)
 
 The XSLT for this page simply creates an HTML table and nothing else:  
 
@@ -97,6 +97,10 @@ If these files exist, they will be automatically added to the `<head>` when the 
 	#orders_order-summary {
 		...
 	}
+
+## A word on security
+
+As [michael-e points out](http://symphony-cms.com/discuss/thread/40332/#position-6) the above example is rather insecure if you are actually displaying order information on a public URL. You should filter in your page XSLT on the existence of a `$cookie-username` parameter (your Symphony author username) as a check that the request is authenticated. Similarly you could use the [Login Info event](http://github.com/symphony/workspace/blob/master/events/event.login.php) attached to your page to get more user information from the page XML.
 
 ## Other examples
 
