@@ -1,6 +1,6 @@
 # HTML Panel Field
  
-Version: 1.1  
+Version: 1.0  
 Author: Nick Dunn  
 Build Date: 2010-03-04  
 Requirements: Symphony 2.0.6+, cURL (not fsockopen)
@@ -28,19 +28,19 @@ The available XML to choose from is a full `<entry>` nodeset, as you would norma
 This is a quick example to show how an HTML Panel field can be used to display an order summary from a one-to-many section relationship between Orders and Order Items.
 
 The Orders section comprises a Name (reference) and Date field:  
-![Orders section](html-panels.1.png)
+![Orders section](http://nick-dunn.co.uk/assets/files/html-panels.1.png)
 
 Entries in the Order Items section store the item name, unit price, quantity and which Order they are assigned to:  
-![Order Items section](html-panels.2.png)
+![Order Items section](http://nick-dunn.co.uk/assets/files/html-panels.2.png)
 
 Viewing the Orders section a user sees the normal fields plus an HTML Panel field showing the order summary:  
-![Order entry](html-panels.3.png)
+![Order entry](http://nick-dunn.co.uk/assets/files/html-panels.3.png)
 
 The HTML Panel field is configured to point to a local Symphony page, passing the viewed (Order) entry ID in the URL:  
-![Order Summary page snippet](html-panels.5.png)
+![Order Summary page snippet](http://nick-dunn.co.uk/assets/files/html-panels.5.png)
 
 The order summary table is actually served from a frontend page with a Data Source attached, filtering Order Entries by the URL Parameter `{$order}`:
-![Order Summary page snippet](html-panels.4.png)
+![Order Summary page snippet](http://nick-dunn.co.uk/assets/files/html-panels.4.png)
 
 The XSLT for this page simply creates an HTML table and nothing else:  
 
