@@ -98,6 +98,15 @@ If these files exist, they will be automatically added to the `<head>` when the 
 		...
 	}
 
+## Fields that store values
+The above example is read-only — it just displays something. As of v1.2 HTML Panel can be used to build fields that store values too! You don't need to do anything too fancy. Start by passing the field's value in the URL to the page that builds the panel:
+
+	/my-page/?value={entry/my-field-name/text()}
+
+In your XSLT you can then grab this value and build an input element. So long as you give the input element a name that matches your field name, its value will be saved to the entry. For example:
+
+    <input type="text" name="fields[my-field-name]" value="{$url-value}" />
+
 ## A word on security
 
 As [michael-e points out](http://symphony-cms.com/discuss/thread/40332/#position-6) the above example is rather insecure if you are actually displaying order information on a public URL. You should filter in your page XSLT on the existence of a `$cookie-username` parameter (your Symphony author username) as a check that the request is authenticated. Similarly you could use the [Login Info event](http://github.com/symphony/workspace/blob/master/events/event.login.php) attached to your page to get more user information from the page XML.
