@@ -17,9 +17,24 @@
 									
 		}
 		
+		public function appendFormattedElement(&$wrapper, $data, $encode=false, $mode=NULL, $entry_id=NULL) {
+			if (is_null($data) || !is_array($data)) return;
+			
+			$wrapper->appendChild(
+				new XMLElement(
+					$this->get('element_name'),
+					($encode ? General::sanitize($data['value']) : $data['value']),
+					array('handle' => $data['handle'])
+				)
+			);
+		}
+		
 		public function processRawFieldData($data, &$status, $simulate=false, $entry_id=null) {
 			$status = self::__OK__;
-			return array();
+			return array(
+				'handle' => Lang::createHandle($data),
+				'value' => $data
+			);
 		}
 		
 		public function commit() {
@@ -119,6 +134,8 @@
 				"CREATE TABLE IF NOT EXISTS `tbl_entries_data_" . $this->get('id') . "` (
 				  `id` int(11) unsigned NOT NULL auto_increment,
 				  `entry_id` int(11) unsigned NOT NULL,
+				  `handle` varchar(255) default NULL,
+    			  `value` varchar(255) default NULL,
 				  PRIMARY KEY  (`id`),
 				  KEY `entry_id` (`entry_id`)
 				) TYPE=MyISAM;"			
