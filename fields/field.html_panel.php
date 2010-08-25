@@ -18,7 +18,7 @@
 		}
 		
 		public function appendFormattedElement(&$wrapper, $data, $encode=false, $mode=NULL, $entry_id=NULL) {
-			if (is_null($data) || !is_array($data)) return;
+			if (is_null($data) || !is_array($data) || is_null($data['value'])) return;
 			
 			$wrapper->appendChild(
 				new XMLElement(
