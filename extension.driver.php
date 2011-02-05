@@ -5,8 +5,8 @@
 		public function about(){
 			return array(
 						'name' => 'Field: HTML Panel',
-						'version' => '1.2',
-						'release-date' => '2010-08-25',
+						'version' => '1.3',
+						'release-date' => '2011-02-05',
 						'author' => array(
 							'name' => 'Nick Dunn',
 							'website' => 'http://nick-dunn.co.uk'
