@@ -1,9 +1,9 @@
 # HTML Panel Field
  
-Version: 1.0  
-Author: Nick Dunn  
-Build Date: 2010-03-04  
-Requirements: Symphony 2.0.6+, cURL (not fsockopen)
+* Version: 1.2
+* Author: Nick Dunn
+* Build Date: 2011-02-05
+* Requirements: Symphony 2.2 and cURL (not `fsockopen`)
 
 ## Purpose
 To allow the creation of rich views of data in the Symphony backend, using only Symphony's native tools (Pages, XSLT and Data Sources). To reduce the barrier to entry of embedding of content within the Symphony backend without so that developers do not experience of creating Extensions and system Fields. "So easy a frontend developer could do it!"
