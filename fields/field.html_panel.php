@@ -156,7 +156,7 @@
 			if (!$entry instanceOf Entry) return new DOMXPath(new DOMDocument());
 			
 			$entry_xml = new XMLElement('entry');
-			$section_id = $entry->_fields['section_id'];
+			$section_id = $entry->get('section_id');
 			$data = $entry->getData();			
 			$fields = array();
 
@@ -179,11 +179,13 @@
 					$entry_xml->setAttribute($handle, (string)$count);
 				}
 			}
+			
+			$fm = new FieldManager(Symphony::Engine());
 
 			foreach ($data as $field_id => $values) {
 				if (empty($field_id)) continue;
 
-				$field =& $entry->_Parent->fieldManager->fetch($field_id);
+				$field =& $fm->fetch($field_id);
 				$field->appendFormattedElement($entry_xml, $values, false, null);
 			}
 
