@@ -50,7 +50,7 @@
 				'url_expression'	=> $this->get('url_expression')
 			);
 			
-			$this->Database->query("
+			Symphony::Database()->query("
 				DELETE FROM
 					`tbl_fields_{$handle}`
 				WHERE
@@ -58,7 +58,7 @@
 				LIMIT 1
 			");
 			
-			return $this->Database->insert($fields, "tbl_fields_{$handle}");
+			return Symphony::Database()->insert($fields, "tbl_fields_{$handle}");
 		}
 		
 		function displayPublishPanel(&$wrapper, $data=NULL, $flagWithError=NULL, $fieldnamePrefix=NULL, $fieldnamePostfix=NULL){
@@ -130,7 +130,7 @@
 		}
 		
 		public function createTable(){
-			return $this->Database->query(			
+			return Symphony::Database()->query(			
 				"CREATE TABLE IF NOT EXISTS `tbl_entries_data_" . $this->get('id') . "` (
 				  `id` int(11) unsigned NOT NULL auto_increment,
 				  `entry_id` int(11) unsigned NOT NULL,
@@ -173,7 +173,7 @@
 			if (!$entry instanceOf Entry) return new DOMXPath(new DOMDocument());
 			
 			$entry_xml = new XMLElement('entry');
-			$section_id = $entry->_fields['section_id'];
+			$section_id = $entry->get('section_id');
 			$data = $entry->getData();			
 			$fields = array();
 
@@ -183,7 +183,7 @@
 
 			if (is_array($associated) and !empty($associated)) {
 				foreach ($associated as $section => $count) {
-					$handle = Administration::instance()->Database->fetchVar('handle', 0, "
+					$handle = Symphony::Database()->fetchVar('handle', 0, "
 						SELECT
 							s.handle
 						FROM
@@ -196,11 +196,13 @@
 					$entry_xml->setAttribute($handle, (string)$count);
 				}
 			}
+			
+			$fm = new FieldManager(Symphony::Engine());
 
 			foreach ($data as $field_id => $values) {
 				if (empty($field_id)) continue;
 
-				$field =& $entry->_Parent->fieldManager->fetch($field_id);
+				$field =& $fm->fetch($field_id);
 				$field->appendFormattedElement($entry_xml, $values, false, null);
 			}
 
