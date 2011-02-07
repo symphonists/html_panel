@@ -112,7 +112,7 @@
 				$asset_index = $this->get('id') * rand(10,100);
 				
 				// add the general styling
-				$this->_engine->Page->addStylesheetToHead(URL . '/extensions/html_panel/assets/html-panel.css', 'screen', $asset_index++);
+				$this->_engine->Page->addStylesheetToHead(URL . '/extensions/html_panel/assets/html_panel.publish.css', 'screen', $asset_index++);
 				
 				// add panel-specific styling
 				$instance_css = '/html-panel/' . $instance_id . '.css';
