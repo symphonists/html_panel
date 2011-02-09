@@ -4,14 +4,14 @@
 		
 		public function __construct(&$parent){
 			parent::__construct($parent);
-			$this->_name = 'HTML Panel';
+			$this->_name = __('HTML Panel');
 			$this->_driver = $this->_engine->ExtensionManager->create('html_panel');
 		}
 
 		function displaySettingsPanel(&$wrapper, $errors=NULL){
 			parent::displaySettingsPanel($wrapper, $errors);
 
-			$label = Widget::Label('URL Expression');
+			$label = Widget::Label(__('URL Expression'));
 			$label->appendChild(Widget::Input('fields['.$this->get('sortorder').'][url_expression]', $this->get('url_expression')));
 			$wrapper->appendChild($label);
 									
