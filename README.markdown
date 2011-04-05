@@ -1,8 +1,8 @@
 # HTML Panel Field
  
-* Version: 1.3.1
+* Version: 1.3.2
 * Author: Nick Dunn
-* Build Date: 2011-02-07
+* Build Date: 2011-04-05
 * Requirements: Symphony 2.2, cURL (not `fsockopen`)
 
 ## Purpose
@@ -119,7 +119,3 @@ The uses for this technique are far reaching. Some other possible implementation
 * when multiple Images are assigned to an Article, an HTML Panel could display a read-only list of thumbnails with "Edit" links directly to these entries in the Images section (a type of read-only Subsection/Mediathek field)
 * embedding Google Charts or Google Maps
 * making web service calls to third party application such as Google Analytics, stock/inventory/fulfilment systems etc.
-
-## Changelog
-* **1.2** added ability for field to save basic value/handle for building of basic single-value custom fields
-* **1.1** public release
