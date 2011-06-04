@@ -82,7 +82,9 @@
 
 			$ch = curl_init($url);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+			// If safe_mode and/or open_basedir is enabled, CURLOPT_FOLLOWLOCATION is not allowed and throws error.
+			// So set it with errors disabled (by using "@" :).
+			@curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 			curl_setopt( $ch, CURLOPT_COOKIE, $cookie);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 			$result = curl_exec($ch);
