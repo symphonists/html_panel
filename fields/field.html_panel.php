@@ -82,11 +82,10 @@
 
 			$ch = curl_init($url);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			if(ini_get('safe_mode') == 0 && ini_get('open_basedir') == '') {
-				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-			}
-			curl_setopt( $ch, CURLOPT_COOKIE, $cookie);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+			curl_setopt($ch, CURLOPT_COOKIE, $cookie);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 			$result = curl_exec($ch);
 			curl_close($ch);
 
