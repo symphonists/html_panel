@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension id="html_panel">
+	<name>HTML Panel field</name>
+	<description>A field that allows embedding of HTML directly into the backend</description>
+	<url type="repo">https://github.com/nickdunn/html_panel</url>
+	<url type="discuss">http://symphony-cms.com/discuss/thread/40332/</url>
+	<types>
+		<type>Field Types</type>
+	</types>
+	<authors>
+		<author>
+			<name github="nickdunn" symphony="nickdunn">Nick Dunn</name>
+			<website>http://nick-dunn.co.uk</website>
+		</author>
+	</authors>
+	<releases>
+		<release version="1.3.2" date="2011-04-05" min="2.2" />
+	</releases>
+</extension>
