@@ -2,7 +2,7 @@
 <extension id="html_panel">
 	<name>HTML Panel field</name>
 	<description>A field that allows embedding of HTML directly into the backend</description>
-	<url type="repo">https://github.com/nickdunn/html_panel</url>
+	<repo type="github">https://github.com/nickdunn/html_panel</repo>
 	<url type="discuss">http://symphony-cms.com/discuss/thread/40332/</url>
 	<types>
 		<type>Field Types</type>
