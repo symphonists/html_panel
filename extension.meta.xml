@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension id="html_panel">
+<extension id="html_panel" status="released" xmlns="http://symphony-cms.com/schemas/extension/1.0">
 	<name>HTML Panel field</name>
 	<description>A field that allows embedding of HTML directly into the backend</description>
 	<repo type="github">https://github.com/nickdunn/html_panel</repo>
