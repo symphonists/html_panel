@@ -1,18 +1,6 @@
 <?php
 
 	Class extension_html_panel extends Extension{
-	
-		public function about(){
-			return array(
-						'name' => 'Field: HTML Panel',
-						'version' => '1.3.2',
-						'release-date' => '2011-04-05',
-						'author' => array(
-							'name' => 'Nick Dunn',
-							'website' => 'http://nick-dunn.co.uk'
-						)
-					);
-		}
 		
 		public function install() {
 			return Symphony::Database()->query("

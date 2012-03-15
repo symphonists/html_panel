@@ -2,10 +2,9 @@
 	
 	Class fieldhtml_panel extends Field{
 		
-		public function __construct(&$parent){
-			parent::__construct($parent);
+		public function __construct(){
+			parent::__construct();
 			$this->_name = __('HTML Panel');
-			$this->_driver = $this->_engine->ExtensionManager->create('html_panel');
 		}
 
 		function displaySettingsPanel(&$wrapper, $errors=NULL){
@@ -38,18 +37,17 @@
 		}
 		
 		public function commit() {
-			if (!parent::commit()) return false;
+			if (!parent::commit()) return;
 			
 			$id = $this->get('id');
-			$handle = $this->handle();
-			
-			if ($id === false) return false;
+			if ($id === FALSE) return;
 			
 			$fields = array(
-				'field_id'			=> $id,
-				'url_expression'	=> $this->get('url_expression')
+				'field_id' => $id,
+				'url_expression' => $this->get('url_expression')
 			);
 			
+			$handle = $this->handle();
 			Symphony::Database()->query("
 				DELETE FROM
 					`tbl_fields_{$handle}`
@@ -63,20 +61,22 @@
 		
 		function displayPublishPanel(&$wrapper, $data=NULL, $flagWithError=NULL, $fieldnamePrefix=NULL, $fieldnamePostfix=NULL){
 			
+			if(!isset(Administration::instance()->Page)) return;
+			
 			// work out what page we are on, get portions of the URL
 			$callback = Administration::instance()->getPageCallback();
 			$entry_id = $callback['context']['entry_id'];
 			
 			// get an Entry object for this entry
-			$entryManager = new EntryManager(Administration::instance());
-			$entries = $entryManager->fetch($entry_id);
+			$entries = EntryManager::fetch($entry_id);
 			
 			if (is_array($entries)) $entry = reset($entries);
 			
-			// parse dynamic portions of the HTML Panel URL
+			// parse dynamic portions of the panel URL
 			$url = $this->parseExpression($entry, $this->get('url_expression'));
 			if (!preg_match('/^http/', $url)) $url = URL . $url;
-
+			
+			// create Symphony cookie to pass with each request
 			$cookie = 'PHPSESSID=' . $_COOKIE['PHPSESSID'] . '; path=/';
 			session_write_close();
 
@@ -88,16 +88,6 @@
 			curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 			$result = curl_exec($ch);
 			curl_close($ch);
-
-			//require_once(TOOLKIT . '/class.gateway.php');
-			//$ch = new Gateway;
-			//$ch->init();
-			//$ch->setopt('URL', $url);
-			//$ch->setopt('CURLOPT_COOKIE', $cookie);			
-			//$fh = fopen(TMP . '/cookie.txt', 'w');
-			//fwrite($fh, $cookie);
-			//fclose($fh);			
-			//$result = $ch->exec();
 						
 			// a unique name for this panel instance
 			$instance_id = $callback['context']['section_handle'] . '_' . $this->get('element_name');
@@ -110,23 +100,21 @@
 			$wrapper->appendChild($label);
 			$wrapper->appendChild($container);
 			
-			if ($this->_engine->Page) {
-				$asset_index = $this->get('id') * rand(10,100);
-				
-				// add the general styling
-				$this->_engine->Page->addStylesheetToHead(URL . '/extensions/html_panel/assets/html_panel.publish.css', 'screen', $asset_index++);
-				
-				// add panel-specific styling
-				$instance_css = '/html-panel/' . $instance_id . '.css';
-				if (file_exists(WORKSPACE . $instance_css)) {
-					$this->_engine->Page->addStylesheetToHead(URL . '/workspace' . $instance_css, 'screen', $asset_index++);
-				}
-				
-				// add panel-specific behaviour
-				$instance_js = '/html-panel/' . $instance_id . '.js';
-				if (file_exists(WORKSPACE . $instance_js)) {
-					$this->_engine->Page->addScriptToHead(URL . '/workspace' . $instance_js, $asset_index++);
-				}
+			$asset_index = $this->get('id') * rand(10, 100);
+			
+			// add the general styling
+			Administration::instance()->Page->addStylesheetToHead(URL . '/extensions/html_panel/assets/html_panel.publish.css', 'screen', $asset_index++);
+			
+			// add panel-specific styling
+			$instance_css = '/html-panel/' . $instance_id . '.css';
+			if (file_exists(WORKSPACE . $instance_css)) {
+				Administration::instance()->Page->addStylesheetToHead(URL . '/workspace' . $instance_css, 'screen', $asset_index++);
+			}
+			
+			// add panel-specific behaviour
+			$instance_js = '/html-panel/' . $instance_id . '.js';
+			if (file_exists(WORKSPACE . $instance_js)) {
+				Administration::instance()->Page->addScriptToHead(URL . '/workspace' . $instance_js, $asset_index++);
 			}
 			
 		}
@@ -175,44 +163,20 @@
 			if (!$entry instanceOf Entry) return new DOMXPath(new DOMDocument());
 			
 			$entry_xml = new XMLElement('entry');
-			$section_id = $entry->get('section_id');
-			$data = $entry->getData();			
-			$fields = array();
-
 			$entry_xml->setAttribute('id', $entry->get('id'));
 
-			$associated = $entry->fetchAllAssociatedEntryCounts();
-
-			if (is_array($associated) and !empty($associated)) {
-				foreach ($associated as $section => $count) {
-					$handle = Symphony::Database()->fetchVar('handle', 0, "
-						SELECT
-							s.handle
-						FROM
-							`tbl_sections` AS s
-						WHERE
-							s.id = '{$section}'
-						LIMIT 1
-					");
-
-					$entry_xml->setAttribute($handle, (string)$count);
-				}
-			}
-			
-			$fm = new FieldManager(Symphony::Engine());
-
-			foreach ($data as $field_id => $values) {
+			foreach ($entry->getData() as $field_id => $values) {
 				if (empty($field_id)) continue;
-
-				$field =& $fm->fetch($field_id);
-				$field->appendFormattedElement($entry_xml, $values, false, null);
+				
+				$field = FieldManager::fetch($field_id);
+				$field->appendFormattedElement($entry_xml, $values, FALSE, NULL);
 			}
 
 			$xml = new XMLElement('data');
 			$xml->appendChild($entry_xml);
 
 			$dom = new DOMDocument();
-			$dom->loadXML($xml->generate(true));
+			$dom->loadXML($xml->generate(TRUE));
 
 			return new DOMXPath($dom);
 		}

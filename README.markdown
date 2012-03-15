@@ -104,13 +104,14 @@ In your XSLT you can then grab this value and build an input element. So long as
 
 ## A word on security
 
-As [michael-e points out](http://symphony-cms.com/discuss/thread/40332/#position-6) the above example is rather insecure if you are actually displaying order information on a public URL. You should filter in your page XSLT on the existence of a `$cookie-username` parameter (your Symphony author username) as a check that the request is authenticated. Similarly you could use the [Login Info event](http://github.com/symphony/workspace/blob/master/events/event.login.php) attached to your page to get more user information from the page XML.
+As [michael-e points out](http://symphony-cms.com/discuss/thread/40332/#position-6) the above example is rather insecure if you are actually displaying order information on a public URL. You should test in XSLT for the existence of a `$cookie-username` parameter (your Symphony author username), or use the [Login Info event](http://github.com/symphony/workspace/blob/master/events/event.login.php) attached to your page to get more information about the user. An even better option is to pass a known parameter on the querystring such as `?password=mypass` and test for _this_ in XSLT.
 
-## Other examples
+## Other uses
 
-The uses for this technique are far reaching. Some other possible implementations:
+Use your imagination:
 
-* allowing the user to enter a YouTube video URL in a text input field, and embedding it directly with an HTML Panel
-* when multiple Images are assigned to an Article, an HTML Panel could display a read-only list of thumbnails with "Edit" links directly to these entries in the Images section (a type of read-only Subsection/Mediathek field)
+* allowing the user to enter a YouTube video URL in a text input field, and embedding it directly with an HTML Panel in the backend as a preview
+* when multiple Images are assigned to an Article, an HTML Panel could display a read-only list of thumbnails with "Edit" links directly to these entries in the Images section (a type of read-only Subsection Manager field)
+* when viewing a user profile, pull in a list of their most recent orders, posts or comments for review. Perhaps if you're building a moderation system, you pull in all un-moderated comments for a post
 * embedding Google Charts or Google Maps
-* making web service calls to third party application such as Google Analytics, stock/inventory/fulfilment systems etc.
+* making web service calls to third party application such as Google Analytics, stock/inventory/fulfilment systems etc
