@@ -94,16 +94,13 @@
 			
 			$container = new XMLELement('div', $result);
 			$container->setAttribute('id', $instance_id);
-			$container->setAttribute('class', 'html-panel');
+			$container->setAttribute('class', 'inline frame');
 			
-			$label = Widget::Label($this->get('label'));
+			$label = new XMLElement('span', $this->get('label'));
 			$wrapper->appendChild($label);
 			$wrapper->appendChild($container);
 			
 			$asset_index = $this->get('id') * rand(10, 100);
-			
-			// add the general styling
-			Administration::instance()->Page->addStylesheetToHead(URL . '/extensions/html_panel/assets/html_panel.publish.css', 'screen', $asset_index++);
 			
 			// add panel-specific styling
 			$instance_css = '/html-panel/' . $instance_id . '.css';
