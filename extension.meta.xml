@@ -2,12 +2,15 @@
 <extension id="html_panel" status="released" xmlns="http://symphony-cms.com/schemas/extension/1.0">
 	<name>HTML Panel field</name>
 	<description>A field that allows embedding of HTML directly into the backend</description>
-	<repo type="github">https://github.com/nickdunn/html_panel</repo>
+	<repo type="github">https://github.com/symphonists/html_panel</repo>
 	<url type="discuss">http://symphony-cms.com/discuss/thread/40332/</url>
 	<types>
 		<type>Field Types</type>
 	</types>
 	<authors>
+		<author>
+			<name github="symphonists" symphony="community">Symphony Community</name>
+		</author>
 		<author>
 			<name github="nickdunn" symphony="nickdunn">Nick Dunn</name>
 			<website>http://nick-dunn.co.uk</website>
