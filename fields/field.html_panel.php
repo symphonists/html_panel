@@ -80,14 +80,13 @@
 			$cookie = 'PHPSESSID=' . $_COOKIE['PHPSESSID'] . '; path=/';
 			session_write_close();
 
-			$ch = curl_init($url);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-			curl_setopt($ch, CURLOPT_COOKIE, $cookie);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-			curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-			$result = curl_exec($ch);
-			curl_close($ch);
+			$gateway = new Gateway;
+			$gateway->init($url);
+			$gateway->setopt('TIMEOUT', 10);		
+			$gateway->setopt(CURLOPT_COOKIE, $cookie);
+			$gateway->setopt(CURLOPT_SSL_VERIFYPEER, FALSE);
+
+			$result = $gateway->exec();
 						
 			// a unique name for this panel instance
 			$instance_id = $callback['context']['section_handle'] . '_' . $this->get('element_name');
