@@ -95,9 +95,9 @@
 			$container->setAttribute('id', $instance_id);
 			$container->setAttribute('class', 'inline frame');
 			
-			$label = new XMLElement('span', $this->get('label'));
-			$wrapper->appendChild($label);
-			$wrapper->appendChild($container);
+			$label = new XMLElement('label', $this->get('label'));
+			$label->appendChild($container);
+			$wrapper->appendChild($label);			
 			
 			$asset_index = $this->get('id') * rand(10, 100);
 			
