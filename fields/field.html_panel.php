@@ -78,7 +78,6 @@
 			
 			// create Symphony cookie to pass with each request
 			$cookie = 'PHPSESSID=' . $_COOKIE['PHPSESSID'] . '; path=/';
-			session_write_close();
 
 			$gateway = new Gateway;
 			$gateway->init($url);
