@@ -17,8 +17,8 @@
 
 		'HTML Panel' =>
 		'Panou HTML',
-		
+
 		'URL Expression' =>
 		'Expresie URL',
-	
+
 	);

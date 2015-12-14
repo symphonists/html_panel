@@ -1,7 +1,7 @@
 <?php
 
 	Class extension_html_panel extends Extension{
-		
+
 		public function install() {
 			return Symphony::Database()->query("
 				CREATE TABLE `tbl_fields_html_panel` (
@@ -13,9 +13,9 @@
 				) TYPE=MyISAM
 			");
 		}
-		
+
 		public function uninstall(){
 			return Symphony::Database()->query("DROP TABLE `tbl_fields_html_panel`");
 		}
-	
+
 	}
