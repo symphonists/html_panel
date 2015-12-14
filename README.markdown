@@ -1,10 +1,10 @@
 # HTML Panel Field
- 
+
 ## Purpose
 To allow the creation of rich views of data in the Symphony backend, using only Symphony's native tools (Pages, XSLT and Data Sources). To reduce the barrier to entry of embedding of content within the Symphony backend without so that developers do not experience of creating Extensions and system Fields. "So easy a frontend developer could do it!"
 
 ## Installation
- 
+
 1. Upload the 'html_panel' folder in this archive to your Symphony 'extensions' folder
 2. Enable it by selecting the "Field: HTML Panel", choose Enable from the with-selected menu, then click Apply
 3. The field will be available in the list when creating a Section
@@ -17,7 +17,7 @@ When adding this field to a section you must provide a **URL Expression**. This 
     /order-summary-panel/{entry/@id}
 
 The available XML to choose from is a full `<entry>` nodeset, as you would normally see through a Data Source. All fields are included in this XML.
-	
+
 ## Example of use
 
 This is a quick example to show how an HTML Panel field can be used to display an order summary from a one-to-many section relationship between Orders and Order Items.
@@ -41,11 +41,11 @@ The XSLT for this page simply creates an HTML table and nothing else:
 
 	<?xml version="1.0" encoding="UTF-8"?>
 	<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	
+
 	<xsl:output method="xml" omit-xml-declaration="yes" encoding="UTF-8" indent="yes" />
 
 	<xsl:template match="/">
-	
+
 		<table>
 			<thead>
 				<tr>
@@ -66,7 +66,7 @@ The XSLT for this page simply creates an HTML table and nothing else:
 				</xsl:for-each>
 			</tbody>
 		</table>
-	
+
 	</xsl:template>
 
 	</xsl:stylesheet>
@@ -88,7 +88,7 @@ You can create styles and behaviour by creating files at the following locations
 	/workspace/html-panel/orders_order-summary.js
 
 If these files exist, they will be automatically added to the `<head>` when the page loads. Your CSS can then target its specific HTML Panel:
-	
+
 	#orders_order-summary {
 		...
 	}
