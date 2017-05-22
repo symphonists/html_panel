@@ -8,7 +8,7 @@ class fieldhtml_panel extends Field{
         $this->_name = __('HTML Panel');
     }
 
-    function displaySettingsPanel(&$wrapper, $errors=NULL)
+    function displaySettingsPanel(XMLElement &$wrapper, $errors = NULL)
     {
         parent::displaySettingsPanel($wrapper, $errors);
 
@@ -18,7 +18,7 @@ class fieldhtml_panel extends Field{
 
     }
 
-    public function appendFormattedElement(&$wrapper, $data, $encode=false, $mode=NULL, $entry_id=NULL)
+    public function appendFormattedElement(XMLElement &$wrapper, $data, $encode = false, $mode = NULL, $entry_id = NULL)
     {
         if (is_null($data) || !is_array($data) || is_null($data['value'])) return;
 
@@ -65,7 +65,7 @@ class fieldhtml_panel extends Field{
         return Symphony::Database()->insert($fields, "tbl_fields_{$handle}");
     }
 
-    function displayPublishPanel(&$wrapper, $data=NULL, $flagWithError=NULL, $fieldnamePrefix=NULL, $fieldnamePostfix=NULL)
+    function displayPublishPanel(XMLElement &$wrapper, $data = NULL, $flagWithError = NULL, $fieldnamePrefix = NULL, $fieldnamePostfix = NULL, $entry_id = NULL)
     {
         if(!isset(Administration::instance()->Page)) return;
 
