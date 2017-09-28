@@ -17,7 +17,10 @@
 		</author>
 	</authors>
 	<releases>
-		<release version="1.5.2" date="2015-12-14" min="2.6.0" max="2.6.x"/>
+	  <release version="1.5.3" date="2017-05-22" min="2.6.0" max="2.x.x">
+	    - PHP 7 compatibility
+	  </release>
+		<release version="1.5.2" date="2015-12-14" min="2.6.0" max="2.x.x"/>
 		<release version="1.5.1" date="2015-12-14" min="2.6.0" max="2.6.x"/>
 		<release version="1.5" date="2015-12-14" min="2.6.0"/>
 		<release version="1.4.1" date="2012-03-27" min="2.3.x"/>
