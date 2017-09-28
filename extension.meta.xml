@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension id="html_panel" status="released" xmlns="http://symphony-cms.com/schemas/extension/1.0">
+<extension id="html_panel" status="released" xmlns="http://getsymphony.com/schemas/extension/1.0">
 	<name>HTML Panel field</name>
 	<description>A field that allows embedding of HTML directly into the backend</description>
 	<repo type="github">https://github.com/symphonists/html_panel</repo>
-	<url type="discuss">http://symphony-cms.com/discuss/thread/40332/</url>
+	<url type="discuss">https://www.getsymphony.com/discuss/thread/40332/</url>
 	<types>
 		<type>Field Types</type>
 	</types>
@@ -17,9 +17,9 @@
 		</author>
 	</authors>
 	<releases>
-	  <release version="1.5.3" date="2017-05-22" min="2.6.0" max="2.x.x">
-	    - PHP 7 compatibility
-	  </release>
+		<release version="1.5.3" date="2017-05-22" min="2.6.0" max="2.x.x">
+			- PHP 7 compatibility
+		</release>
 		<release version="1.5.2" date="2015-12-14" min="2.6.0" max="2.x.x"/>
 		<release version="1.5.1" date="2015-12-14" min="2.6.0" max="2.6.x"/>
 		<release version="1.5" date="2015-12-14" min="2.6.0"/>
